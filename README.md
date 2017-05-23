@@ -1,4 +1,4 @@
-#Development
+# Development
 
 ## Development server
 
@@ -8,7 +8,7 @@ Run `npm start:dev` for a dev server. Navigate to `http://localhost:3000/`. The 
 
 Run `ng build:dev` to build the project for development. The build artifacts will be stored in the `dist/` directory.
 
-##Linting
+## Linting
 
 Run `npm run lint` to lint all your .ts files. Upon every build or starting the development server, the code is automatically linted for you.
 
@@ -21,7 +21,7 @@ Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Before running the tests make sure you are serving the app via `npm start` or `npm start:dev`.
 
-#Production
+# Production
 
 ## Build
 
