@@ -1,26 +1,18 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { APP_BASE_HREF } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import RoutingModule from '../../src/app.routes';
 import AppComponent from '../../src/app.component';
-import HomeComponent from '../../src/components/home/home.component';
-import AboutComponent from '../../src/components/about/about.component';
-
-import NotFoundComponent from '../../src/components/not-found/not-found.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RoutingModule
+        RouterModule.forRoot([])
       ],
       declarations: [
         AppComponent,
-
-        HomeComponent,
-        AboutComponent,
-        NotFoundComponent
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/'}

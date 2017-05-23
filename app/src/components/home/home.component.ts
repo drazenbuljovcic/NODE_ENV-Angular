@@ -9,7 +9,7 @@ export default class HomeComponent {
   title: String = "Home!";
 
   assets: any = {
-    bgImage: require('../../../assets/images/angular.png')
+    image: require('../../../assets/images/angular.png')
   };
 
   constructor() { }
