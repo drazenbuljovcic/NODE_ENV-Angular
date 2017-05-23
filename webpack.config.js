@@ -8,6 +8,8 @@ const webpack = require('webpack'),
 
 const DEV = true ? process.env.NODE_ENV === "development" : false;
 const TESTING = true ? process.env.NODE_ENV === "testing_unit" : false;
+const BUILD = !!process.env.BUILD;
+console.log('Build: ', BUILD);
 console.log('Environment: ', process.env.NODE_ENV);
 
 module.exports = {
@@ -79,7 +81,7 @@ module.exports = {
       {
         test: /\.(sass|scss)/,
         exclude: /node_modules/,
-        use: DEV ?
+        use: DEV && !BUILD ?
           [ 'style-loader', 'css-loader', {
               loader: 'postcss-loader',
               options: {

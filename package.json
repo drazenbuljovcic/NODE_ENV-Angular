@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "webdriver-manager update",
     "start": "npm run build:prod && http-server dist/ -p 3000",
-    "build:prod": "NODE_ENV=production webpack -p --progress --colors --display-error-details",
+    "build:prod": "BUILD=true NODE_ENV=production webpack -p --progress --colors --display-error-details",
     "start:dev": "NODE_ENV=development webpack-dev-server --progress --colors --hot --inline",
-    "build:dev": "NODE_ENV=development webpack --progress --colors --display-error-details",
+    "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",
     "lint": "tslint 'app/**/*.ts' --config tslint.json",
     "test": "NODE_ENV=testing_unit karma start",
     "e2e": "NODE_ENV=testing_e2e protractor"
@@ -56,6 +57,6 @@
     "tslint-loader": "^3.5.3",
     "typescript": "~2.2.0",
     "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.4"
   }
 }
