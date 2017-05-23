@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "baseUrl": "",
+    "types": []
+  },
+  "exclude": [
+    "karma.entry.ts",
+    "**/*.spec.ts"
+  ]
+}
