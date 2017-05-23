@@ -31,6 +31,7 @@ module.exports = {
     hot: true,
     inline: true,
     port: 3000,
+    contentBase: path.resolve(__dirname + '/dist')
   },
   devtool: 'source-map',
   plugins: [
@@ -39,7 +40,10 @@ module.exports = {
       template: path.resolve(__dirname, 'app', 'index.html')
     }),
 
-    new webpackExtract('css/app[hash:6].bundle.css'),
+    new webpackExtract({
+      filename: 'css/app[hash:6].bundle.css',
+      disable: DEV ? false : true
+    }),
 
     new webpack.DefinePlugin({
       'env': JSON.stringify(process.env.NODE_ENV || '')
@@ -56,8 +60,9 @@ module.exports = {
       name: 'manifest'
     }),
 
-    new friendlyErrorsWebpackPlugin()
-
+    new friendlyErrorsWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
   ],
   module: {
     rules: [
@@ -102,13 +107,13 @@ module.exports = {
         test: /\.(sass|scss)/,
         exclude: /node_modules/,
         use: DEV && !BUILD ?
-          [ 'style-loader', 'css-loader', {
+          [ 'style-loader', 'css-loader?sourceMap', {
               loader: 'postcss-loader',
               options: {
                 plugins: [autoprefixer()]
               }
             },
-          'sass-loader' ]
+          'sass-loader?sourceMap&sourceComments' ]
         :
           webpackExtract.extract({
             use: ['css-loader', {

@@ -8,7 +8,7 @@
     "postinstall": "webdriver-manager update",
     "start": "npm run build:prod && http-server dist/ -p 3000",
     "build:prod": "BUILD=true NODE_ENV=production webpack -p --progress --colors --display-error-details",
-    "start:dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors",
+    "start:dev": "NODE_ENV=development webpack-dev-server --progress --colors",
     "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",
     "lint": "tslint 'app/**/*.ts' --config tslint.json",
     "test": "NODE_ENV=testing_unit karma start",
@@ -57,7 +57,7 @@
     "pug-loader": "^2.3.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.5",
-    "style-loader": "^0.18.0",
+    "style-loader": "^0.16.1",
     "ts-loader": "^2.1.0",
     "ts-node": "~2.0.0",
     "tslint": "^4.5.1",
@@ -65,6 +65,6 @@
     "typescript": "~2.2.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.4.4"
+    "webpack-dev-server": "^2.4.5"
   }
 }
