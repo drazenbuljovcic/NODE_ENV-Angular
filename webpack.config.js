@@ -9,6 +9,7 @@ const webpack = require('webpack'),
 const DEV = true ? process.env.NODE_ENV === "development" : false;
 const TESTING = true ? process.env.NODE_ENV === "testing_unit" : false;
 const BUILD = !!process.env.BUILD;
+
 console.log('Build: ', BUILD);
 console.log('Environment: ', process.env.NODE_ENV);
 
@@ -27,6 +28,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    hot: true,
     inline: true,
     port: 3000,
   },
@@ -37,7 +39,7 @@ module.exports = {
       template: path.resolve(__dirname, 'app', 'index.html')
     }),
 
-    new webpackExtract('app[hash:6].bundle.css'),
+    new webpackExtract('css/app[hash:6].bundle.css'),
 
     new webpack.DefinePlugin({
       'env': JSON.stringify(process.env.NODE_ENV || '')
@@ -98,6 +100,22 @@ module.exports = {
               }
             }, 'sass-loader']
           })
+      },
+
+      {
+        test: /\.(png|gif|jpe?g|svg)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: '[name][hash:6].[ext]',
+              outputPath: 'images/'
+            },
+          },
+          { loader: 'image-webpack-loader' }
+        ]
       },
 
       //favicon loader

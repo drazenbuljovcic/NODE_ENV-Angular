@@ -6,7 +6,7 @@
     "postinstall": "webdriver-manager update",
     "start": "npm run build:prod && http-server dist/ -p 3000",
     "build:prod": "BUILD=true NODE_ENV=production webpack -p --progress --colors --display-error-details",
-    "start:dev": "NODE_ENV=development webpack-dev-server --progress --colors --hot --inline",
+    "start:dev": "NODE_ENV=development webpack-dev-server --hot --inline",
     "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",
     "lint": "tslint 'app/**/*.ts' --config tslint.json",
     "test": "NODE_ENV=testing_unit karma start",
@@ -35,8 +35,10 @@
     "codelyzer": "~2.0.0",
     "css-loader": "^0.28.2",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.28.0",
+    "image-webpack-loader": "^3.3.1",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "~1.4.1",
@@ -56,6 +58,7 @@
     "tslint": "^4.5.1",
     "tslint-loader": "^3.5.3",
     "typescript": "~2.2.0",
+    "url-loader": "^0.5.8",
     "webpack": "^2.6.0",
     "webpack-dev-server": "^2.4.4"
   }
