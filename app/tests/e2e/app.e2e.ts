@@ -11,6 +11,6 @@ describe('angular-env App', () => {
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Hello world!');
+    expect(page.getParagraphText()).toEqual('Home!');
   });
 });

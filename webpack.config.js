@@ -15,7 +15,7 @@ console.log('Environment: ', process.env.NODE_ENV);
 
 module.exports = {
   entry: {
-    'app': path.resolve(__dirname, 'app', 'main.ts'),
+    'app': path.resolve(__dirname, 'app', 'src', 'main.ts'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -23,7 +23,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', '.html', '.css', '.sass', '.scss', '.ico' ],
+    extensions: [ '.ts', '.tsx', '.js', '.html', '.pug', '.css', '.sass', '.scss', '.ico' ],
     modules: [ 'node_modules' ]
   },
   devServer: {
@@ -61,6 +61,21 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.html/,
+        use: [
+          {
+            loader: 'raw-loader',
+            options: {
+              interpolate: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.pug/,
+        use: 'pug-loader'
+      },
       {
         test: /\.tsx?/,
         exclude: /node_modules/,
