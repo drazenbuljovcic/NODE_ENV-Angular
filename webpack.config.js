@@ -2,8 +2,9 @@ const webpack = require('webpack'),
   path = require('path'),
   autoprefixer = require('autoprefixer'),
   preloadWebpackPlugin = require('preload-webpack-plugin'),
-  webpackManifest = require('webpack-manifest-plugin'),
   friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
+  bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+  webpackManifest = require('webpack-manifest-plugin'),
   webpackClean = require('clean-webpack-plugin'),
   webpackCopy = require('copy-webpack-plugin'),
   webpackHtml = require('html-webpack-plugin'),
@@ -89,7 +90,15 @@ module.exports = {
 
     new friendlyErrorsWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new bundleAnalyzerPlugin({
+      analyzerMode: DEV && !BUILD ? 'server' : 'disabled',
+      analyzerHost: '127.0.0.1',
+      analyzerPort: 3001,
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'stats.json',
+    })
   ],
   module: {
     rules: [
