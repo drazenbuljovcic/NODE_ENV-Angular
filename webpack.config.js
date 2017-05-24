@@ -6,8 +6,8 @@ const webpack = require('webpack'),
   webpackHtml = require('html-webpack-plugin'),
   webpackExtract = require('extract-text-webpack-plugin');
 
-const DEV = true ? process.env.NODE_ENV === "development" : false;
-const TESTING = true ? process.env.NODE_ENV === "testing_unit" : false;
+const DEV = process.env.NODE_ENV === "development" ? true : false;
+const TESTING = process.env.NODE_ENV === "testing_unit" ? true : false;
 const BUILD = !!process.env.BUILD;
 
 console.log('Build: ', BUILD);
@@ -42,7 +42,7 @@ module.exports = {
 
     new webpackExtract({
       filename: 'css/app[hash:6].bundle.css',
-      disable: DEV ? false : true
+      disable: DEV && !BUILD
     }),
 
     new webpack.DefinePlugin({
