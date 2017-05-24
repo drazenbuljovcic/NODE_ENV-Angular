@@ -32,4 +32,10 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
   }));
+
+  it('should have a title ANGULAR !!!', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.title).toEqual('ANGULAR');
+  }))
 });

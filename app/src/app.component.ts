@@ -5,5 +5,7 @@ import { Component } from '@angular/core';
   template: `<router-outlet></router-outlet>`
 })
 export default class AppComponent {
+  title: String = "ANGULAR";
+
   constructor() {}
 }
