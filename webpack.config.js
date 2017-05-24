@@ -81,7 +81,10 @@ module.exports = {
     new webpackCopy([
       { from: path.resolve(__dirname, 'app/favicon.ico' ), to: './' },
       { from: path.resolve(__dirname, 'app/assets/images/angular_logo.png' ), to: './images' },
-      { from: path.resolve(__dirname, 'app/manifest.json' ), to: './' }
+      { from: path.resolve(__dirname, 'app/manifest.json' ), to: './' },
+
+      { from: path.resolve(__dirname, 'app/src/sw.js' ), to: './' },
+
     ]),
 
     new friendlyErrorsWebpackPlugin(),
@@ -132,21 +135,11 @@ module.exports = {
         exclude: /node_modules/,
         use: DEV && !BUILD ?
           [ 'style-loader', 'css-loader?sourceMap', {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-                plugins: [autoprefixer()]
-              }
-            },
+              loader: 'postcss-loader?sourceMap' },
           'sass-loader?sourceMap&sourceComments' ]
         :
           webpackExtract.extract({
-            use: ['css-loader', {
-              loader: 'postcss-loader',
-              options: {
-                plugins: [autoprefixer()]
-              }
-            }, 'sass-loader']
+            use: ['css-loader', 'postcss-loader', 'sass-loader']
           })
       },
 
