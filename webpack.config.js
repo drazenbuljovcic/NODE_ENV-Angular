@@ -25,7 +25,11 @@ module.exports = {
   },
   resolve: {
     extensions: [ '.ts', '.tsx', '.js', '.html', '.pug', '.css', '.sass', '.scss', '.ico', '.json' ],
-    modules: [ 'node_modules' ]
+    modules: [ 'node_modules' ],
+    alias: {
+      '~': path.resolve(__dirname, 'app'),
+      '@': path.resolve(__dirname, 'app', 'src'),
+    }
   },
   devServer: {
     historyApiFallback: true,
@@ -148,32 +152,10 @@ module.exports = {
       },
 
       //favicon loader
-      {
-        test: /favicon\.ico$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1,
-              name: '[name].[ext]',
-            },
-          }
-        ]
-      },
+      { test: /favicon\.ico$/, use: [ 'file-loader?limit=1&name=[name].[ext]' ] },
 
       //manifest loader
-      {
-        test: /manifest\.json$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              limit: 1,
-              name: '[name].[ext]',
-            },
-          }
-        ]
-      }
+      { test: /manifest\.json$/, use: [ 'file-loader?limit=1&name=[name].[ext]' ] }
 
     ]
   }

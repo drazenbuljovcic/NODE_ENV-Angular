@@ -2,6 +2,7 @@
   "name": "Angular Env",
   "short_name": "angular-env",
   "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/favicon.ico",
