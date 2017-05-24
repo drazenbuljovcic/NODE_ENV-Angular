@@ -5,9 +5,9 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "246x247",
-      "type": "image/ico"
+      "src": "images/angular_logo.png",
+      "sizes": "250x250",
+      "type": "image/png"
     }
   ],
   "display": "standalone",

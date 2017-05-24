@@ -1,9 +1,11 @@
 const webpack = require('webpack'),
   path = require('path'),
   autoprefixer = require('autoprefixer'),
+  preloadWebpackPlugin = require('preload-webpack-plugin'),
   webpackManifest = require('webpack-manifest-plugin'),
   friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
   webpackClean = require('clean-webpack-plugin'),
+  webpackCopy = require('copy-webpack-plugin'),
   webpackHtml = require('html-webpack-plugin'),
   webpackExtract = require('extract-text-webpack-plugin');
 
@@ -20,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name][hash:6].bundle.js',
+    filename: 'js/[name].[hash:6].js',
     publicPath: '/'
   },
   resolve: {
@@ -46,7 +48,7 @@ module.exports = {
     }),
 
     new webpackExtract({
-      filename: 'css/app[hash:6].bundle.css',
+      filename: 'css/css.[hash:6].css',
       disable: DEV && !BUILD
     }),
 
@@ -59,7 +61,7 @@ module.exports = {
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
-      filename: 'js/[name][hash:6].bundle.js',
+      filename: 'js/[name].[hash:6].js',
       minChunks: function (module) {
         return module.context && module.context.indexOf('node_modules') !== -1;
       },
@@ -68,6 +70,19 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
+
+    new preloadWebpackPlugin({
+      rel: 'preload',
+      as: 'script',
+      include: [ 'manifest', 'vendor', 'app' ],
+      fileBlacklist: [ /\.map/, /\.css/ ]
+    }),
+
+    new webpackCopy([
+      { from: path.resolve(__dirname, 'app/favicon.ico' ), to: './' },
+      { from: path.resolve(__dirname, 'app/assets/images/angular_logo.png' ), to: './images' },
+      { from: path.resolve(__dirname, 'app/manifest.json' ), to: './' }
+    ]),
 
     new friendlyErrorsWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -150,12 +165,6 @@ module.exports = {
           { loader: 'image-webpack-loader' }
         ]
       },
-
-      //favicon loader
-      { test: /favicon\.ico$/, use: [ 'file-loader?limit=1&name=[name].[ext]' ] },
-
-      //manifest loader
-      { test: /manifest\.json$/, use: [ 'file-loader?limit=1&name=[name].[ext]' ] }
 
     ]
   }
