@@ -1,7 +1,8 @@
 const webpack = require('webpack'),
   path = require('path'),
   autoprefixer = require('autoprefixer'),
-  friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+  webpackManifest = require('webpack-manifest-plugin'),
+  friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
   webpackClean = require('clean-webpack-plugin'),
   webpackHtml = require('html-webpack-plugin'),
   webpackExtract = require('extract-text-webpack-plugin');
@@ -23,7 +24,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', '.html', '.pug', '.css', '.sass', '.scss', '.ico' ],
+    extensions: [ '.ts', '.tsx', '.js', '.html', '.pug', '.css', '.sass', '.scss', '.ico', '.json' ],
     modules: [ 'node_modules' ]
   },
   devServer: {
@@ -45,6 +46,10 @@ module.exports = {
       disable: DEV && !BUILD
     }),
 
+    new webpackManifest({
+      fileName: 'webpack-manifest.json',
+      basePath: '/'
+    }),
     new webpack.DefinePlugin({
       'env': JSON.stringify(process.env.NODE_ENV || '')
     }),
@@ -110,6 +115,7 @@ module.exports = {
           [ 'style-loader', 'css-loader?sourceMap', {
               loader: 'postcss-loader',
               options: {
+                sourceMap: true,
                 plugins: [autoprefixer()]
               }
             },
@@ -154,6 +160,21 @@ module.exports = {
           }
         ]
       },
+
+      //manifest loader
+      {
+        test: /manifest\.json$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              limit: 1,
+              name: '[name].[ext]',
+            },
+          }
+        ]
+      }
+
     ]
   }
 }

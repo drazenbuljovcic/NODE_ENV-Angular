@@ -4,6 +4,9 @@ import 'reflect-metadata';
 
 import '../styles/main';
 
+import '../favicon';
+import '../manifest';
+
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

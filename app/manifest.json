@@ -1,0 +1,17 @@
+{
+  "name": "Angular Env",
+  "short_name": "angular-env",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "246x247",
+      "type": "image/ico"
+    }
+  ],
+  "display": "standalone",
+  "theme_color": "#C3002F",
+  "orientation": "portrait",
+  "lang": "en-US",
+  "background_color": "white"
+}
