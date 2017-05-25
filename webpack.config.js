@@ -51,7 +51,7 @@ const config = {
     }),
 
     new webpackExtract({
-      filename: 'css/css.[hash:6].css',
+      filename: 'css/app.[hash:6].css',
       disable: DEV && !BUILD
     }),
 
