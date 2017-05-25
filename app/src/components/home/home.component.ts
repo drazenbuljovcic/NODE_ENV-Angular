@@ -1,16 +1,25 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
-  selector: 'main',
-  template: require('./home.component.html')
-})
-export default class HomeComponent {
+import { config } from '../../config'
 
-  title: String = "Home!";
+const template = config.env !== 'production' &&
+   { template: require('./home.component.html') }
+
+@Component({
+  selector: 'home',
+  // templateUrl: 'home.component.html',
+  templateUrl: 'home.component.html',
+  ...template
+  // In order to use Pug for production Build using AOT, the HTML needs to be preprocessed beforehand
+  // template: config.env !== 'production' ? require('./home.component.pug')() : null
+})
+export class HomeComponent {
+
+  title: String = 'Home!';
 
   assets: any = {
     image: require('~/assets/images/angular.png')
   };
 
-  constructor() { }
+  constructor() {}
 }

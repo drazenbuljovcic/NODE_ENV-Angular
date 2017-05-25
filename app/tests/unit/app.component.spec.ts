@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import AppComponent from '@/app.component';
+import { AppComponent } from '../../src/app.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

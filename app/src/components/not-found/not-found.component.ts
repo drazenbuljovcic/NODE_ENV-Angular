@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'not-found',
   template: `<h1>Not Found</h1>`
 })
-export default class NotFoundComponent {
+export class NotFoundComponent {
   constructor() {}
 }
