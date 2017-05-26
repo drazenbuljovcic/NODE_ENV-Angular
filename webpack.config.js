@@ -94,13 +94,18 @@ const config = {
       {
         test: /\.html/,
         use: [
-          { loader: 'raw-loader' },
-          // {
-          //   loader: 'html-loader',
-          //   options: {
-          //     interpolate: true
-          //   }
-          // },
+          // { loader: 'raw-loader' },
+          {
+            loader: 'html-loader',
+            options: {
+              interpolate: true,
+              minimize: true,
+              removeAttributeQuotes: false,
+              caseSensitive: true,
+              customAttrSurround: [ [/#/, /(?:)/], [/\*/, /(?:)/], [/\[?\(?/, /(?:)/] ],
+              customAttrAssign: [ /\)?\]?=/ ]
+            }
+          },
         ]
       },
       { test: /\.pug/, use: 'pug-loader' },
@@ -114,7 +119,7 @@ const config = {
           'sass-loader?sourceMap&sourceComments' ]
         :
           webpackExtract.extract({
-            use: ['css-loader', 'postcss-loader', 'sass-loader']
+            use: ['css-loader?sourceMap=false', 'postcss-loader?sourceMap=false', 'sass-loader?sourceMap=false']
           })
       },
 
@@ -168,7 +173,8 @@ if (!PROD) {
           configFileName: TESTING ? 'tsconfig.spec.json' : 'tsconfig.app.json'
         }
       },
-      { loader: 'angular2-template-loader' }
+      { loader: 'angular2-template-loader' },
+      { loader: '@angularclass/hmr-loader' } // needed in order to use templateUrl resolving of templates
     ]
   })
 
