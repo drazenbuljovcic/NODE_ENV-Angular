@@ -174,7 +174,8 @@ if (!PROD) {
         }
       },
       { loader: 'angular2-template-loader' },
-      { loader: '@angularclass/hmr-loader' } // needed in order to use templateUrl resolving of templates
+      { loader: '@angularclass/hmr-loader' }, // needed in order to use templateUrl resolving of templates
+      { loader: 'angular-router-loader' }
     ]
   })
 
