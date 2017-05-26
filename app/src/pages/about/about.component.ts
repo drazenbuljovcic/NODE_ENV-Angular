@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'about-page',
-  template: `<router-outlet></router-outlet><h1>About!</h1><a [routerLink]="['/']">Home</a><a [routerLink]="['contact']">Contact</a>`
+  template: `<router-outlet></router-outlet><h1>About!</h1><a [routerLink]="['/']">Home</a><a [routerLink]="['/about/contact']">Contact</a>`
 })
 export class AboutComponent {
   constructor() {}
