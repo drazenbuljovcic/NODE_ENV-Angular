@@ -195,7 +195,7 @@ if(PROD) {
     sourceMap: false
   }));
   config.plugins.push(new AotPlugin({
-    tsConfigPath: './tsconfig.app.json',
+    tsConfigPath: './tsconfig.aot.json',
     entryModule: 'app/src/app.module#AppModule'
   }));
 }

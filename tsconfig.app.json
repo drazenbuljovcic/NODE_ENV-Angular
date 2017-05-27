@@ -1,13 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "es6",
+    "module": "es2015",
     "baseUrl": "",
     "types": []
   },
   "exclude": [
     "karma.entry.ts",
     "**/*.spec.ts",
+    "app/src/main.aot.ts",
     "node_modules"
   ]
 }

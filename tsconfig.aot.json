@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "baseUrl": "",
+    "noImplicitAny": false,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "outDir": "aot",
+    "skipLibCheck": true,
+    "rootDir": "."
+  },
+  "files": [
+    "app/src/app.module.ts",
+    "app/src/pages/home/home.module.ts",
+    "app/src/pages/about/about.module.ts",
+    "app/src/main.aot.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./app/aot",
+    "entryModule": "app/src/app.module#AppModule"
+  }
+}
