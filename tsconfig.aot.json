@@ -14,9 +14,10 @@
   },
   "files": [
     "app/src/app.module.ts",
-    "app/src/pages/home/home.module.ts",
-    "app/src/pages/about/about.module.ts",
     "app/src/main.aot.ts"
+  ],
+  "include": [
+    "**/*.module.ts"
   ],
   "angularCompilerOptions": {
     "genDir": "./app/aot",

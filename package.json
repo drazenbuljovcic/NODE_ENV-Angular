@@ -7,7 +7,6 @@
   "scripts": {
     "start": "npm run build:prod && npm run server",
     "server": "NODE_ENV=production node server/server.js",
-    "ngc": "ngc -p tsconfig.aot.json",
     "build:prod": "BUILD=true NODE_ENV=production webpack --progress --colors --display-error-details",
     "dev": "NODE_ENV=development webpack-dev-server --progress --colors",
     "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",
