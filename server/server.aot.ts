@@ -1,4 +1,5 @@
 import 'zone.js/dist/zone-node';
+import '~/styles/main';
 
 import * as path from 'path';
 import * as express from 'express';
@@ -10,30 +11,23 @@ import { ngUniversalEngine } from './universal.engine';
 
 enableProdMode();
 
+declare var $dirname: String;
+
 const server = express();
 // set our angular engine as the handler for html files, so it will be used to render them.
 server.engine('html', ngUniversalEngine({
     bootstrap: [ AppServerModuleNgFactory ]
 }));
+console.log(path.resolve($dirname))
 // set default view directory
-server.set('views', '.');
-server.set(express.static('.'));
+server.set('view engine', 'html')
+server.set('views', path.resolve($dirname));
+server.set(express.static(path.resolve($dirname)));
 // handle requests for routes in the app.  ngExpressEngine does the rendering.
-server.get('*', (req, res) => {
+server.get('**', (req, res) => {
     res.render('index.html', {req});
 });
 
-// handle requests for static files
-server.get(['/*.js', '/*.css'], (req, res, next) => {
-    let fileName: string = req.originalUrl;
-    console.log(fileName);
-    let root = fileName.startsWith('/node_modules/') ? '.' : 'dist';
-    res.sendFile(fileName, { root: root }, function (err) {
-        if (err) {
-            next(err);
-        }
-    });
-});
 // start the server
 server.listen(3000, () => {
     console.log('listening on port 3000...');

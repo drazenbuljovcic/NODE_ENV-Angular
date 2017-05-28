@@ -5,11 +5,11 @@
   "author": "Dražen Buljovčić <drazen.buljovcic@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "npm run build:prod && npm run server",
+    "start": "npm run build:server && npm run server",
     "server": "NODE_ENV=production node dist/server.js",
     "ngc:app": "ngc -p tsconfig.aot.json",
     "ngc:server": "ngc -p tsconfig.uni.json",
-    "build:server": "webpack --config webpack.universal.config.js --progress --colors --display-error-details",
+    "build:server": "BUILD=true NODE_ENV=universal webpack --progress --colors --display-error-details",
     "build:prod": "BUILD=true NODE_ENV=production webpack --progress --colors --display-error-details",
     "dev": "NODE_ENV=development webpack-dev-server --progress --colors",
     "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",

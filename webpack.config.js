@@ -13,6 +13,7 @@ const webpack = require('webpack'),
 
 const DEV = process.env.NODE_ENV === "development" ? true : false;
 const PROD = process.env.NODE_ENV === "production" ? true : false;
+const UNI = process.env.NODE_ENV === "universal" ? true : false;
 const TESTING = process.env.NODE_ENV === "testing_unit" ? true : false;
 const BUILD = !!process.env.BUILD;
 
@@ -21,9 +22,7 @@ console.log('Environment: ', process.env.NODE_ENV);
 
 const config = {
   entry: {
-    'app': !PROD ?
-      path.resolve(__dirname, 'app', 'src', 'main.ts') :
-      path.resolve(__dirname, 'app', 'src', 'main.aot.ts'),
+    'app': path.resolve(__dirname, 'app', 'src', 'main.ts')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -47,10 +46,8 @@ const config = {
   },
   devtool: 'source-map',
   plugins: [
+
     new webpackClean('dist'),
-    new webpackHtml({
-      template: path.resolve(__dirname, 'app', 'index.html')
-    }),
 
     new webpackExtract({
       filename: 'css/app.[hash:6].css',
@@ -65,23 +62,6 @@ const config = {
       'env': JSON.stringify(process.env.NODE_ENV || '')
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      filename: 'js/[name].[hash:6].js',
-      minChunks: function (module) {
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      },
-      name: 'vendor'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
-    }),
-
-    new preloadWebpackPlugin({
-      rel: 'preload',
-      as: 'script',
-      include: [ 'manifest', 'vendor', 'app' ],
-      fileBlacklist: [ /\.map/, /\.css/ ]
-    }),
 
     new webpackCopy([
       { from: path.resolve(__dirname, 'app/favicon.ico' ), to: './' },
@@ -134,7 +114,8 @@ const config = {
             options: {
               limit: 1000,
               name: '[name][hash:6].[ext]',
-              outputPath: 'images/'
+              outputPath: 'images/',
+              publicPath: '/'
             },
           },
           { loader: 'image-webpack-loader' }
@@ -144,7 +125,7 @@ const config = {
   }
 }
 
-if (!PROD) {
+if (DEV || TESTING) {
   config.plugins.push(new friendlyErrorsWebpackPlugin())
   config.plugins.push(new webpack.NamedModulesPlugin());
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -182,7 +163,10 @@ if (!PROD) {
 
 }
 
-if(PROD) {
+if(PROD && !UNI) {
+  config.entry = {
+    "app": path.resolve(__dirname, 'app', 'src', 'main.aot.ts')
+  }
   config.module.rules.push(
     { test: /\.tsx?/, loaders: ['@ngtools/webpack'] }
   );
@@ -200,5 +184,61 @@ if(PROD) {
     entryModule: 'app/src/app.module#AppModule'
   }));
 }
+
+if(UNI) {
+
+  config.entry = {
+    main: [
+      path.resolve(__dirname, 'server', 'server.module.ts'),
+      path.resolve(__dirname, 'server', 'server.aot.ts')
+    ]
+  };
+
+  config.output = {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'server.js'
+  };
+  config.target = 'node';
+
+  config.module.rules.push({ test: /\.ts$/, loader: '@ngtools/webpack' });
+
+  config.plugins.push(new webpack.DefinePlugin({
+    $dirname: '__dirname',
+  }));
+  config.plugins.push(new AotPlugin({
+      tsConfigPath: './tsconfig.uni.json'
+  }));
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
+  config.plugins.push(new webpackCopy([
+    { from: path.resolve(__dirname, 'app/index.html' ), to: './' }
+  ]));
+
+} else {
+
+  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    filename: 'js/[name].[hash:6].js',
+    minChunks: function (module) {
+      return module.context && module.context.indexOf('node_modules') !== -1;
+    },
+    name: 'vendor'
+  }))
+
+  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    name: 'manifest'
+  }));
+
+  config.plugins.push(new preloadWebpackPlugin({
+      rel: 'preload',
+      as: 'script',
+      include: [ 'manifest', 'vendor', 'app' ],
+      fileBlacklist: [ /\.map/, /\.css/ ]
+    })
+  );
+
+  config.plugins.push(new webpackHtml({
+    template: path.resolve(__dirname, 'app', 'index.html')
+  }));
+}
+
 
 module.exports = config;
