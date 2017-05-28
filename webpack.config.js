@@ -175,9 +175,8 @@ if (!PROD) {
           configFileName: TESTING ? 'tsconfig.spec.json' : 'tsconfig.app.json'
         }
       },
-      { loader: 'angular2-template-loader' },
-      { loader: '@angularclass/hmr-loader' }, // needed in order to use templateUrl resolving of templates
-      { loader: 'angular-router-loader' }
+      { loader: 'angular2-template-loader' }, // needed for resolving templateUrl inside angular components
+      { loader: 'angular-router-loader' } // needed for resolving lazy loaded children in app routing
     ]
   })
 
