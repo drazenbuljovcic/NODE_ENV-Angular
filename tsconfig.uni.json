@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.aot.json",
+  "files": [
+    "server/server.module.ts",
+    "server/server.aot.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./server/aot",
+    "entryModule": "server/server.module#AppServerModule"
+  }
+}

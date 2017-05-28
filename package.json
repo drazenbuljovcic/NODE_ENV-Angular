@@ -6,7 +6,10 @@
   "private": true,
   "scripts": {
     "start": "npm run build:prod && npm run server",
-    "server": "NODE_ENV=production node server/server.js",
+    "server": "NODE_ENV=production node dist/server.js",
+    "ngc:app": "ngc -p tsconfig.aot.json",
+    "ngc:server": "ngc -p tsconfig.uni.json",
+    "build:server": "webpack --config webpack.universal.config.js --progress --colors --display-error-details",
     "build:prod": "BUILD=true NODE_ENV=production webpack --progress --colors --display-error-details",
     "dev": "NODE_ENV=development webpack-dev-server --progress --colors",
     "build:dev": "BUILD=true NODE_ENV=development webpack --progress --colors --display-error-details",
@@ -16,23 +19,21 @@
     "e2e": "NODE_ENV=testing_e2e protractor"
   },
   "dependencies": {
+    "express": "^4.15.3",
+    "compression": "^1.6.2"
+  },
+  "devDependencies": {
+    "@angular/animations": "^4.1.3",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.1.3",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/platform-server": "^4.1.3",
     "@angular/router": "^4.0.0",
-    "compression": "^1.6.2",
-    "core-js": "^2.4.1",
-    "express": "^4.15.3",
-    "reflect-metadata": "^0.1.10",
-    "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4"
-  },
-  "devDependencies": {
-    "@angular/compiler-cli": "^4.1.3",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ngtools/webpack": "^1.3.3",
     "@types/jasmine": "2.5.38",
@@ -45,6 +46,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "codelyzer": "~2.0.0",
     "copy-webpack-plugin": "^4.0.1",
+    "core-js": "^2.4.1",
     "css-loader": "^0.28.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
@@ -68,6 +70,8 @@
     "pug": "^2.0.0-rc.1",
     "pug-loader": "^2.3.0",
     "raw-loader": "^0.5.1",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.1.0",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.16.1",
     "ts-node": "~2.0.0",
@@ -78,6 +82,7 @@
     "webpack": "^2.6.0",
     "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "^2.4.5",
-    "webpack-manifest-plugin": "^1.1.0"
+    "webpack-manifest-plugin": "^1.1.0",
+    "zone.js": "^0.8.4"
   }
 }

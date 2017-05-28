@@ -19,7 +19,9 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
   ],
   imports: [
     RoutingModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({
+      appId: 'angular-starter-env'
+    }),
     FormsModule,
     HttpModule,
   ],
