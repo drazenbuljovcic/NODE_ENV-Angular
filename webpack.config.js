@@ -21,7 +21,9 @@ console.log('Environment: ', process.env.NODE_ENV);
 
 const config = {
   entry: {
-    'app': path.resolve(__dirname, 'app', 'src', 'main.ts'),
+    'app': !PROD ?
+      path.resolve(__dirname, 'app', 'src', 'main.ts') :
+      path.resolve(__dirname, 'app', 'src', 'main.aot.ts'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
