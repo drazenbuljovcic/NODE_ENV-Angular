@@ -19,6 +19,9 @@
   "include": [
     "**/*.module.ts"
   ],
+  "exclude": [
+    "app/src/main.ts"
+  ],
   "angularCompilerOptions": {
     "genDir": "./app/aot",
     "entryModule": "app/src/app.module#AppModule"
