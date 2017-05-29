@@ -9,6 +9,7 @@
     "karma.entry.ts",
     "**/*.spec.ts",
     "app/src/main.aot.ts",
+    "server/server.aot.ts",
     "node_modules"
   ]
 }

@@ -4,6 +4,7 @@ const webpack = require('webpack'),
   AotPlugin = require('@ngtools/webpack').AotPlugin,
   preloadWebpackPlugin = require('preload-webpack-plugin'),
   friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
+  styleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin'),
   bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
   webpackManifest = require('webpack-manifest-plugin'),
   webpackClean = require('clean-webpack-plugin'),
@@ -44,14 +45,14 @@ const config = {
     port: 3000,
     contentBase: path.resolve(__dirname + '/dist')
   },
-  devtool: 'source-map',
+  devtool: DEV && !BUILD ? 'source-map' : false,
   plugins: [
 
     new webpackClean('dist'),
 
     new webpackExtract({
       filename: 'css/app.[hash:6].css',
-      disable: DEV && !BUILD
+      disable: DEV && !BUILD,
     }),
 
     new webpackManifest({
@@ -101,7 +102,7 @@ const config = {
           'sass-loader?sourceMap&sourceComments' ]
         :
           webpackExtract.extract({
-            use: ['css-loader?sourceMap=false', 'postcss-loader?sourceMap=false', 'sass-loader?sourceMap=false']
+            use: ['css-loader', 'postcss-loader', 'sass-loader']
           })
       },
 
@@ -209,9 +210,16 @@ if(UNI) {
       tsConfigPath: './tsconfig.uni.json'
   }));
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
-  config.plugins.push(new webpackCopy([
-    { from: path.resolve(__dirname, 'app/index.html' ), to: './' }
-  ]));
+  config.plugins.push(new webpackHtml({
+    filename: 'index.aot.html',
+    template: path.resolve(__dirname, 'app', 'index.html'),
+    minify: {
+      collapseWhitespace: true
+    },
+    environment: process.env.NODE_ENV,
+    chunks: []
+  }));
+  config.plugins.push(new styleExtHtmlWebpackPlugin());
 
 } else {
 
@@ -228,15 +236,17 @@ if(UNI) {
   }));
 
   config.plugins.push(new preloadWebpackPlugin({
-      rel: 'preload',
-      as: 'script',
-      include: [ 'manifest', 'vendor', 'app' ],
-      fileBlacklist: [ /\.map/, /\.css/ ]
-    })
-  );
-
+    rel: 'preload',
+    as: 'script',
+    include: [ 'manifest', 'vendor', 'app' ],
+    fileBlacklist: [ /\.map/, /\.css/ ]
+  }));
   config.plugins.push(new webpackHtml({
-    template: path.resolve(__dirname, 'app', 'index.html')
+    template: path.resolve(__dirname, 'app', 'index.html'),
+    minify: {
+      collapseWhitespace: true
+    },
+    environment: process.env.NODE_ENV
   }));
 }
 

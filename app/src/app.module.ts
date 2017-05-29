@@ -28,4 +28,4 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
   providers: [],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}

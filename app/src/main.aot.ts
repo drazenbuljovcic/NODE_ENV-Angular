@@ -10,9 +10,4 @@ import { AppModuleNgFactory } from '../aot/app/src/app.module.ngfactory';
 enableProdMode();
 
 platformBrowser()
-  .bootstrapModuleFactory(AppModuleNgFactory)
-  .then(_ => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  });
+  .bootstrapModuleFactory(AppModuleNgFactory);

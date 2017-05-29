@@ -1,31 +1,45 @@
 import 'zone.js/dist/zone-node';
 import '~/styles/main';
 
+import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
+import * as compression from 'compression';
 
 import { enableProdMode } from '@angular/core';
 
 import { AppServerModuleNgFactory } from './aot/server/server.module.ngfactory';
-import { ngUniversalEngine } from './universal.engine';
+import { renderModuleFactory } from '@angular/platform-server';
 
 enableProdMode();
 
-declare var $dirname: String;
+declare var $dirname: string;
 
 const server = express();
+server.use(compression());
+
+
+let template = fs.readFileSync(path.join($dirname, 'index.aot.html')).toString();
+server.engine('html', (_, options, callback) => {
+  const opts = { document: template, url: options.req.url };
+
+  renderModuleFactory(AppServerModuleNgFactory, opts)
+    .then(html => callback(null, html));
+});
+
 // set our angular engine as the handler for html files, so it will be used to render them.
-server.engine('html', ngUniversalEngine({
-    bootstrap: [ AppServerModuleNgFactory ]
-}));
-console.log(path.resolve($dirname))
+server.set('view engine', 'html');
 // set default view directory
-server.set('view engine', 'html')
 server.set('views', path.resolve($dirname));
-server.set(express.static(path.resolve($dirname)));
+
+// handle requests for static files
+server.get('*.*', express.static(path.resolve($dirname)));
 // handle requests for routes in the app.  ngExpressEngine does the rendering.
 server.get('**', (req, res) => {
-    res.render('index.html', {req});
+    res.render('index.aot.html', {
+      req,
+      res
+    });
 });
 
 // start the server
