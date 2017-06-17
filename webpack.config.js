@@ -7,7 +7,7 @@ const webpack = require('webpack'),
   styleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin'),
   bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
   webpackManifest = require('webpack-manifest-plugin'),
-  webpackClean = require('clean-webpack-plugin'),
+  // webpackClean = require('clean-webpack-plugin'),
   webpackCopy = require('copy-webpack-plugin'),
   webpackHtml = require('html-webpack-plugin'),
   webpackExtract = require('extract-text-webpack-plugin');
@@ -48,7 +48,7 @@ const config = {
   devtool: DEV && !BUILD ? 'source-map' : false,
   plugins: [
 
-    new webpackClean('dist'),
+    // new webpackClean('dist'),
 
     new webpackExtract({
       filename: 'css/app.[hash:6].css',
@@ -197,7 +197,8 @@ if(UNI) {
 
   config.output = {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'server.js'
+    filename: 'server.js',
+    chunkFilename: '[name].[chunkhash].js'
   };
   config.target = 'node';
 
@@ -210,15 +211,15 @@ if(UNI) {
       tsConfigPath: './tsconfig.uni.json'
   }));
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
-  config.plugins.push(new webpackHtml({
-    filename: 'index.aot.html',
-    template: path.resolve(__dirname, 'app', 'index.html'),
-    minify: {
-      collapseWhitespace: true
-    },
-    environment: process.env.NODE_ENV,
-    chunks: []
-  }));
+  // config.plugins.push(new webpackHtml({
+  //   filename: 'index.aot.html',
+  //   template: path.resolve(__dirname, 'app', 'index.html'),
+  //   minify: {
+  //     collapseWhitespace: true
+  //   },
+  //   environment: process.env.NODE_ENV,
+  //   chunks: []
+  // }));
   config.plugins.push(new styleExtHtmlWebpackPlugin());
 
 } else {
@@ -238,7 +239,7 @@ if(UNI) {
   config.plugins.push(new preloadWebpackPlugin({
     rel: 'preload',
     as: 'script',
-    include: [ 'manifest', 'vendor', 'app' ],
+    include: 'all',
     fileBlacklist: [ /\.map/, /\.css/ ]
   }));
   config.plugins.push(new webpackHtml({

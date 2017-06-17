@@ -19,7 +19,7 @@ const server = express();
 server.use(compression());
 
 
-let template = fs.readFileSync(path.join($dirname, 'index.aot.html')).toString();
+let template = fs.readFileSync(path.join($dirname, 'index.html')).toString();
 server.engine('html', (_, options, callback) => {
   const opts = { document: template, url: options.req.url };
 
@@ -30,13 +30,12 @@ server.engine('html', (_, options, callback) => {
 // set our angular engine as the handler for html files, so it will be used to render them.
 server.set('view engine', 'html');
 // set default view directory
-server.set('views', path.resolve($dirname));
 
 // handle requests for static files
 server.get('*.*', express.static(path.resolve($dirname)));
 // handle requests for routes in the app.  ngExpressEngine does the rendering.
 server.get('**', (req, res) => {
-    res.render('index.aot.html', {
+    res.render(path.join($dirname, 'index.html'), {
       req,
       res
     });

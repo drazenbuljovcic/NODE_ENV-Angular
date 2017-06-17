@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { config } from '../../config'
 
@@ -16,5 +16,4 @@ export class HomeComponent {
     image: require('~/assets/images/angular.png')
   };
 
-  constructor() {}
 }
