@@ -1,12 +1,9 @@
 const webpack = require('webpack'),
   path = require('path'),
   autoprefixer = require('autoprefixer'),
-  AotPlugin = require('@ngtools/webpack').AotPlugin,
   preloadWebpackPlugin = require('preload-webpack-plugin'),
-  friendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
   bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
   webpackManifest = require('webpack-manifest-plugin'),
-  webpackClean = require('clean-webpack-plugin'),
   webpackCopy = require('copy-webpack-plugin'),
   webpackHtml = require('html-webpack-plugin'),
   webpackExtract = require('extract-text-webpack-plugin');
@@ -20,11 +17,6 @@ console.log('Build: ', BUILD);
 console.log('Environment: ', process.env.NODE_ENV);
 
 const config = {
-  entry: {
-    'app': !PROD ?
-      path.resolve(__dirname, 'app', 'src', 'main.ts') :
-      path.resolve(__dirname, 'app', 'src', 'main.aot.ts'),
-  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash:6].js',
@@ -38,16 +30,8 @@ const config = {
       '@': path.resolve(__dirname, 'app', 'src'),
     }
   },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    port: 3000,
-    contentBase: path.resolve(__dirname + '/dist')
-  },
   devtool: 'source-map',
   plugins: [
-    new webpackClean('dist'),
     new webpackHtml({
       template: path.resolve(__dirname, 'app', 'index.html')
     }),
@@ -142,63 +126,6 @@ const config = {
       }
     ]
   }
-}
-
-if (!PROD) {
-  config.plugins.push(new friendlyErrorsWebpackPlugin())
-  config.plugins.push(new webpack.NamedModulesPlugin());
-  config.plugins.push(new webpack.HotModuleReplacementPlugin());
-  config.plugins.push(new bundleAnalyzerPlugin({
-    analyzerMode: DEV && !BUILD ? 'server' : 'disabled',
-    analyzerHost: '127.0.0.1',
-    analyzerPort: 3001,
-    openAnalyzer: false,
-    generateStatsFile: false,
-    statsFilename: 'stats.json',
-  }));
-
-  config.module.rules.push({
-    test: /\.tsx?/,
-    loader: 'tslint-loader',
-    options: { configFile: 'tslint.json' },
-    enforce: 'pre',
-    exclude: /node_modules/,
-  });
-
-  config.module.rules.push({
-    test: /\.tsx?/,
-    exclude: /node_modules/,
-    use: [
-      {
-        loader: 'awesome-typescript-loader',
-        options: {
-          configFileName: TESTING ? 'tsconfig.spec.json' : 'tsconfig.app.json'
-        }
-      },
-      { loader: 'angular2-template-loader' }, // needed for resolving templateUrl inside angular components
-      { loader: 'angular-router-loader' } // needed for resolving lazy loaded children in app routing
-    ]
-  })
-
-}
-
-if(PROD) {
-  config.module.rules.push(
-    { test: /\.tsx?/, loaders: ['@ngtools/webpack'] }
-  );
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: true
-    },
-    output: {
-      comments: false
-    },
-    sourceMap: false
-  }));
-  config.plugins.push(new AotPlugin({
-    tsConfigPath: './tsconfig.aot.json',
-    entryModule: 'app/src/app.module#AppModule'
-  }));
 }
 
 module.exports = config;
