@@ -20,7 +20,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash:6].js',
-    publicPath: '/'
+    publicPath: ''
   },
   resolve: {
     extensions: [ '.ts', '.tsx', '.js', '.html', '.pug', '.css', '.sass', '.scss', '.ico', '.json' ],
@@ -38,12 +38,13 @@ const config = {
 
     new webpackExtract({
       filename: 'css/app.[hash:6].css',
+      publicPath: '',
       disable: DEV && !BUILD
     }),
 
     new webpackManifest({
       fileName: 'webpack-manifest.json',
-      basePath: '/'
+      basePath: ''
     }),
     new webpack.DefinePlugin({
       'env': JSON.stringify(process.env.NODE_ENV || '')
