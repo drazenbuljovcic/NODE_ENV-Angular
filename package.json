@@ -5,20 +5,19 @@
   "author": "Dražen Buljovčić <drazen.buljovcic@gmail.com>",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist/",
+    "clean": "rimraf dist/",
     "predeploy": "npm run build:prod",
-    "deploy": "gh-pages -d dist/",
     "start": "npm run build:prod && npm run server",
-    "server": "NODE_ENV=production node server/server.js",
+    "server": "cross-env NODE_ENV=production node server/server.js",
     "prebuild:prod": "npm run clean",
     "build:prod": "BUILD=true NODE_ENV=production webpack --config webpack.prod.js --progress --colors --display-error-details",
-    "dev": "NODE_ENV=development webpack-dev-server --progress --colors --config webpack.dev.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --colors --config webpack.dev.js",
     "prebuild:dev": "npm run clean",
-    "build:dev": "BUILD=true NODE_ENV=development webpack --config webpack.dev.js --progress --colors --display-error-details",
+    "build:dev": "cross-env BUILD=true NODE_ENV=development webpack --config webpack.dev.js --progress --colors --display-error-details",
     "lint": "tslint 'app/**/*.ts' --config tslint.json",
-    "test": "NODE_ENV=testing_unit karma start",
+    "test": "cross-env NODE_ENV=testing_unit karma start",
     "pree2e": "webdriver-manager update",
-    "e2e": "NODE_ENV=testing_e2e protractor"
+    "e2e": "cross-env NODE_ENV=testing_e2e protractor"
   },
   "dependencies": {
     "@angular/common": "^4.0.0",
@@ -31,8 +30,10 @@
     "@angular/router": "^4.0.0",
     "compression": "^1.6.2",
     "core-js": "^2.4.1",
+    "cross-env": "^5.0.5",
     "express": "^4.15.3",
     "reflect-metadata": "^0.1.10",
+    "rimraf": "^2.6.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
