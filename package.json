@@ -10,7 +10,7 @@
     "start": "npm run build:prod && npm run server",
     "server": "cross-env NODE_ENV=production node server/server.js",
     "prebuild:prod": "npm run clean",
-    "build:prod": "BUILD=true NODE_ENV=production webpack --config webpack.prod.js --progress --colors --display-error-details",
+    "build:prod": "cross-env BUILD=true NODE_ENV=production webpack --config webpack.prod.js --progress --colors --display-error-details",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --colors --config webpack.dev.js",
     "prebuild:dev": "npm run clean",
     "build:dev": "cross-env BUILD=true NODE_ENV=development webpack --config webpack.dev.js --progress --colors --display-error-details",
